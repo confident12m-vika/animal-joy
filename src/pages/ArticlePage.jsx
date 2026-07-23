@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useArticle } from '../hooks/useArticle.js'
 import { useOnDemandTranslate } from '../hooks/useOnDemandTranslate.js'
+import ReactionBar from '../components/ReactionBar.jsx'
 import { SurpriseMePrompt } from '../components/SurpriseMe.jsx'
 
 export default function ArticlePage() {
@@ -103,6 +104,10 @@ export default function ArticlePage() {
           </a>
         )}
 
+        <div className="reactions-section">
+          <ReactionBar articleId={article.id} size="default" />
+        </div>
+
         <div className="share-row">
           <p className="share-label">Share this story</p>
           <div className="share-buttons">
@@ -197,6 +202,7 @@ export default function ArticlePage() {
           margin: 0 auto;
           padding: 28px 28px 8px;
         }
+        .reactions-section { margin: 24px 0; }
         .article-body p {
           font-size: 17px;
           line-height: 1.75;

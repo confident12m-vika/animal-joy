@@ -170,6 +170,55 @@ update profiles set is_admin = true where email = 'YOUR-ADMIN-EMAIL@example.com'
 
 ---
 
+## ✉️ المرحلة 4 — رسائل المستخدمين، كود التحقق، والتفاعلات (خطوة بخطوة)
+
+### 1. شغّلي ملف SQL الجديد
+زي المعتاد: **SQL Editor** → **New query** → افتحي `supabase/messaging-and-reactions.sql`،
+انسخي كل المحتوى، الصقيه.
+
+⚠️ **قبل ما تضغطي Run**، دوّري على السطرين دول جوه الملف وغيّريهم:
+```sql
+url := 'https://YOUR-PROJECT-REF.supabase.co/functions/v1/send-single-email',
+```
+غيّري `YOUR-PROJECT-REF` بمعرّف مشروعك الحقيقي في Supabase (هتلاقيه في رابط الداشبورد بتاعك).
+```sql
+'X-Internal-Secret', 'YOUR-INTERNAL-SECRET'
+```
+غيّري `YOUR-INTERNAL-SECRET` بكلمة سر طويلة تخترعيها إنتِ بنفسك (أي نص عشوائي طويل)،
+واحتفظي بنفس القيمة عشان هتحتاجيها في خطوة الفانكشن تحت.
+
+### 2. انشري فانكشن `send-single-email`
+- **Edge Functions** → **Deploy a new function** → **Via Editor** → اسمها بالظبط:
+  `send-single-email`.
+- افتحي `supabase/functions/send-single-email/index.ts`، انسخي المحتوى، الصقيه، **Deploy**.
+- من **Secrets** بتاعتها ضيفي:
+  ```
+  RESEND_API_KEY  = نفس مفتاح Resend اللي عندك
+  SENDER_EMAIL    = hello@animaljoystories.com (أو أي إيميل من دومينك)
+  INTERNAL_SECRET = نفس القيمة اللي اخترعتيها فوق بالظبط
+  ```
+
+### 3. انشري فانكشن `inbound-email` (لو عايزة صندوق بريد حقيقي)
+- نفس الخطوات، اسمها بالظبط: `inbound-email`.
+- افتحي `supabase/functions/inbound-email/index.ts`، انسخي المحتوى، الصقيه، **Deploy**.
+- من **Secrets** ضيفي: `RESEND_API_KEY` (نفس المفتاح).
+- في Resend: **Webhooks** → **Add Webhook** → الرابط:
+  `https://YOUR-PROJECT-REF.supabase.co/functions/v1/inbound-email`، والحدث: `email.received`.
+  انسخي الـ Signing secret اللي هيديهولك (يبدأ بـ `whsec_`) وضيفيه كـ Secret تاني في
+  فانكشن `inbound-email`: `RESEND_WEBHOOK_SECRET`.
+- من Resend: دومينك → **Receiving** → حددي العنوان اللي هيستقبل الرسائل
+  (`hello@animaljoystories.com`).
+
+### 4. فعّلي كود التحقق بدل رابط التأكيد
+- Supabase: **Authentication** → **Email Templates** → **Confirm signup**.
+- في محتوى الإيميل، تأكدي إن فيه `{{ .Token }}` ظاهر (مش بس رابط) — ده اللي بيولّد الكود
+  المكوّن من 6 أرقام اللي بيتبعت للمستخدم.
+
+بعد الخطوات الأربعة دي: الإيميل الجماعي، الرسائل الواردة، كود التحقق، والتفاعلات كلهم
+هيشتغلوا بالكامل.
+
+---
+
 ## المرحلة 1 — تحسينات التصميم (تمت ✅)
 
 - الشعار الحقيقي لـ Urban Soul Vibe (خلفية شفافة فعلية) — `src/assets/logo-icon.png`، وبقى

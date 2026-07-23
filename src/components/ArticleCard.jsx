@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import ReactionBar from './ReactionBar.jsx'
 
 export default function ArticleCard({ article }) {
   const { t, i18n } = useTranslation()
@@ -20,8 +21,8 @@ export default function ArticleCard({ article }) {
         <p>{content.excerpt}</p>
         <div className="meta">
           <span>{t('common.minRead', { count: article.readMinutes })}</span>
-          <span>{'\u2764\uFE0F'} {article.reactions}</span>
         </div>
+        <ReactionBar articleId={article.id} size="compact" />
         {isBestFinds && article.link ? (
           <a className="btn btn-ghost read-more" href={article.link} target="_blank" rel="noreferrer">
             {'\uD83D\uDECD\uFE0F'} Shop now {'\u2192'}

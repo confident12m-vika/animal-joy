@@ -19,6 +19,7 @@ import Account from './pages/Account.jsx'
 import LostFound from './pages/LostFound.jsx'
 import LostPetForm from './pages/LostPetForm.jsx'
 import LostPetDetail from './pages/LostPetDetail.jsx'
+import ContactUs from './pages/ContactUs.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 import Login from './admin/Login.jsx'
@@ -35,6 +36,7 @@ import UsersDashboard from './admin/UsersDashboard.jsx'
 import NotificationsManager from './admin/NotificationsManager.jsx'
 import LostFoundDashboard from './admin/LostFoundDashboard.jsx'
 import LostPetAdminForm from './admin/LostPetAdminForm.jsx'
+import MessagesDashboard from './admin/MessagesDashboard.jsx'
 
 function PublicSite() {
   return (
@@ -56,6 +58,7 @@ function PublicSite() {
           <Route path="/lost-and-found" element={<LostFound />} />
           <Route path="/lost-and-found/new" element={<LostPetForm />} />
           <Route path="/lost-and-found/:id" element={<LostPetDetail />} />
+          <Route path="/contact" element={<ContactUs />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
@@ -89,6 +92,7 @@ function AdminSite() {
         <Route path="notifications" element={<NotificationsManager />} />
         <Route path="lost-and-found" element={<LostFoundDashboard />} />
         <Route path="lost-and-found/:id" element={<LostPetAdminForm />} />
+        <Route path="messages" element={<MessagesDashboard />} />
       </Route>
     </Routes>
   )

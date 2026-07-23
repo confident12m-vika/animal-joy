@@ -20,6 +20,7 @@ export default function AdminLayout() {
             <NavLink to="/admin/gallery">Gallery</NavLink>
             <NavLink to="/admin/urban-soul-vibe">Urban Soul Vibe</NavLink>
             <NavLink to="/admin/lost-and-found">Lost & Found</NavLink>
+            <NavLink to="/admin/messages">Messages</NavLink>
             <NavLink to="/admin/users">Users</NavLink>
             <NavLink to="/admin/notifications">Notifications</NavLink>
           </nav>

@@ -43,6 +43,17 @@ export function AuthProvider({ children }) {
     return { error }
   }
 
+  // Confirms the 6-digit code the person got by email after signing up.
+  const verifySignupCode = async (email, code) => {
+    const { error } = await supabase.auth.verifyOtp({ email, token: code, type: 'signup' })
+    return { error }
+  }
+
+  const resendSignupCode = async (email) => {
+    const { error } = await supabase.auth.resend({ type: 'signup', email })
+    return { error }
+  }
+
   const signInWithEmail = async (email, password) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     return { error }
@@ -74,6 +85,8 @@ export function AuthProvider({ children }) {
     isAdmin: Boolean(profile?.is_admin),
     loading,
     signUpWithEmail,
+    verifySignupCode,
+    resendSignupCode,
     signInWithEmail,
     signInWithGoogle,
     signOut,

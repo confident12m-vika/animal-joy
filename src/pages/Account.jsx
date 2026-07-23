@@ -4,12 +4,14 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { isSupabaseConfigured } from '../lib/supabaseClient.js'
 
 export default function Account() {
-  const { session, signInWithEmail, signUpWithEmail, signInWithGoogle, signOut } = useAuth()
+  const { session, signInWithEmail, signUpWithEmail, verifySignupCode, resendSignupCode, signInWithGoogle, signOut } =
+    useAuth()
   const navigate = useNavigate()
 
-  const [mode, setMode] = useState('login') // 'login' | 'signup'
+  const [mode, setMode] = useState('login') // 'login' | 'signup' | 'verify'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [code, setCode] = useState('')
   const [error, setError] = useState('')
   const [info, setInfo] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -50,17 +52,76 @@ export default function Account() {
     if (err) {
       setError(err.message)
     } else if (mode === 'signup') {
-      setInfo('Account created! Check your email to confirm, then sign in.')
-      setMode('login')
+      setMode('verify')
     } else {
       navigate('/')
     }
+  }
+
+  const handleVerify = async (e) => {
+    e.preventDefault()
+    setSubmitting(true)
+    setError('')
+
+    const { error: err } = await verifySignupCode(email, code)
+
+    setSubmitting(false)
+    if (err) {
+      setError(err.message)
+    } else {
+      navigate('/')
+    }
+  }
+
+  const handleResend = async () => {
+    setError('')
+    setInfo('')
+    const { error: err } = await resendSignupCode(email)
+    if (err) setError(err.message)
+    else setInfo('Sent a new code to your email.')
   }
 
   const handleGoogle = async () => {
     setError('')
     const { error: err } = await signInWithGoogle()
     if (err) setError(err.message)
+  }
+
+  if (mode === 'verify') {
+    return (
+      <div className="container account-page">
+        <form className="account-card" onSubmit={handleVerify}>
+          <h1>Check your email</h1>
+          <p className="subtitle">{`We sent a 6-digit code to ${email}. Enter it below to confirm your account.`}</p>
+
+          <label>
+            Verification code
+            <input
+              type="text"
+              inputMode="numeric"
+              maxLength={6}
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+              placeholder="123456"
+              required
+              autoFocus
+            />
+          </label>
+
+          {error && <p className="account-error">{error}</p>}
+          {info && <p className="account-info">{info}</p>}
+
+          <button className="btn btn-primary" type="submit" disabled={submitting}>
+            {submitting ? 'Verifying\u2026' : 'Verify & continue'}
+          </button>
+
+          <button type="button" className="switch-mode" onClick={handleResend}>
+            {'Didn\u2019t get a code? Resend'}
+          </button>
+        </form>
+        <style>{styles}</style>
+      </div>
+    )
   }
 
   return (
