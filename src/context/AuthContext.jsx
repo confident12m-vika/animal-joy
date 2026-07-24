@@ -38,8 +38,12 @@ export function AuthProvider({ children }) {
     return () => listener.subscription.unsubscribe()
   }, [loadProfile])
 
-  const signUpWithEmail = async (email, password) => {
-    const { error } = await supabase.auth.signUp({ email, password })
+  const signUpWithEmail = async (email, password, name) => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: name ? { data: { full_name: name } } : undefined,
+    })
     return { error }
   }
 

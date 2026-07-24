@@ -23,7 +23,9 @@ export default function Footer() {
           <p className="eyebrow">{t('footer.project')}</p>
           <a href="/urban-soul-vibe">{t('nav.urbanSoulVibe')}</a>
           <a href="/best-finds">{t('nav.bestFinds')}</a>
+          <a href="/about">About Us</a>
           <a href="/contact">Contact Us</a>
+          <a href="/privacy">Privacy Policy</a>
         </div>
       </div>
 
