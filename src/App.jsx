@@ -22,6 +22,7 @@ import LostPetDetail from './pages/LostPetDetail.jsx'
 import ContactUs from './pages/ContactUs.jsx'
 import AboutUs from './pages/AboutUs.jsx'
 import PrivacyPolicy from './pages/PrivacyPolicy.jsx'
+import TermsOfService from './pages/TermsOfService.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 import Login from './admin/Login.jsx'
@@ -63,6 +64,7 @@ function PublicSite() {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
