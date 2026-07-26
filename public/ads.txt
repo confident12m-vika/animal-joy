@@ -3,6 +3,6 @@
 # (find it at adsense.google.com under Account > Account information).
 #
 # Example of what the real line should look like:
-google.com, pub-8726860784692880, DIRECT, f08c47fec0942fa0
+# google.com, pub-1234567890123456, DIRECT, f08c47fec0942fa0
 #
 # Until you replace it, this file intentionally has no valid entry.
