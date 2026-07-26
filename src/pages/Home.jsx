@@ -4,6 +4,7 @@ import { useSiteBlock } from '../hooks/useSiteBlock.js'
 import { useOnDemandTranslate } from '../hooks/useOnDemandTranslate.js'
 import ArticleCard from '../components/ArticleCard.jsx'
 import { SurpriseMeButton } from '../components/SurpriseMe.jsx'
+import AdSlot from '../components/AdSlot.jsx'
 
 const heroFallback = {
   image: 'https://picsum.photos/seed/animaljoy-hero/1400/900',
@@ -66,6 +67,10 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      <div className="container">
+        <AdSlot slot="1111111111" />
+      </div>
 
       <section className="section container">
         <div className="section-head">

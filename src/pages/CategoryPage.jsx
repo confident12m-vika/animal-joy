@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useArticles } from '../hooks/useArticles.js'
 import ArticleCard from '../components/ArticleCard.jsx'
 import { SurpriseMePrompt } from '../components/SurpriseMe.jsx'
+import AdSlot from '../components/AdSlot.jsx'
 
 export default function CategoryPage({ categoryKey, emoji, pageKey }) {
   const { t } = useTranslation()
@@ -31,6 +32,7 @@ export default function CategoryPage({ categoryKey, emoji, pageKey }) {
       </div>
 
       <div className="container">
+        <AdSlot slot="3333333333" />
         <SurpriseMePrompt />
       </div>
     </>

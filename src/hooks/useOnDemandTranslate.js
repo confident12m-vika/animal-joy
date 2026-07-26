@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { translateText } from '../lib/translate.js'
 
@@ -13,6 +13,15 @@ export function useOnDemandTranslate(fields) {
   const [error, setError] = useState('')
 
   const isEnglish = i18n.language === 'en'
+  // Identifies which piece of content this is, so we know when to reset
+  // (e.g. Surprise Me showing a new random item should not keep showing
+  // the previous item's translation).
+  const contentKey = Object.values(fields).join('|')
+
+  useEffect(() => {
+    setTranslated(null)
+    setError('')
+  }, [contentKey])
 
   const toggle = async () => {
     if (translated) {

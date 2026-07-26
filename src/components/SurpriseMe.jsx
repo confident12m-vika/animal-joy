@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useJokes } from '../hooks/useJokes.js'
 import { useArticles } from '../hooks/useArticles.js'
+import { useOnDemandTranslate } from '../hooks/useOnDemandTranslate.js'
 
 // Build one shared pool of "surprises": jokes + short story/fact teasers,
 // resolved to the current language. Anything published in Supabase (or, if
@@ -10,12 +11,16 @@ import { useArticles } from '../hooks/useArticles.js'
 function buildPool(jokes, articles, lang, t) {
   const jokeItems = jokes.map((j) => {
     const content = j.translations[lang] || j.translations.en
+    const en = j.translations.en
     return {
       kind: 'joke',
       kindLabel: `\uD83C\uDFAD ${t('surprise.kindJoke')}`,
       id: j.id,
       title: content.setup,
       body: content.punchline,
+      titleEn: en.setup,
+      bodyEn: en.punchline,
+      hasNativeTranslation: Boolean(j.translations[lang]),
     }
   })
 
@@ -23,6 +28,7 @@ function buildPool(jokes, articles, lang, t) {
     .filter((a) => ['happy-stories', 'laugh-smile', 'amazing-animals'].includes(a.category))
     .map((a) => {
       const content = a.translations[lang] || a.translations.en
+      const en = a.translations.en
       const isFact = a.category === 'amazing-animals'
       return {
         kind: 'story',
@@ -30,6 +36,9 @@ function buildPool(jokes, articles, lang, t) {
         id: a.id,
         title: content.title,
         body: content.excerpt,
+        titleEn: en.title,
+        bodyEn: en.excerpt,
+        hasNativeTranslation: Boolean(a.translations[lang]),
         image: a.image,
       }
     })
@@ -55,6 +64,12 @@ function SurpriseModal({ onClose }) {
       setCurrent(pickRandom(pool))
     }
   }, [pool, current])
+
+  const onDemand = useOnDemandTranslate({
+    title: current?.titleEn || '',
+    body: current?.bodyEn || '',
+  })
+  const displayed = current && !current.hasNativeTranslation ? onDemand.shown : current || {}
 
   const REACTIONS = [
     { key: 'loved', label: `\u2764\uFE0F ${t('surprise.loved')}` },
@@ -85,8 +100,21 @@ function SurpriseModal({ onClose }) {
           </div>
         )}
 
-        <h3>{current.title}</h3>
-        {current.body && <p>{current.body}</p>}
+        <h3>{displayed.title}</h3>
+        {displayed.body && <p>{displayed.body}</p>}
+
+        {!current.hasNativeTranslation && onDemand.show && (
+          <div className="translate-row">
+            <button className="translate-btn" onClick={onDemand.toggle} disabled={onDemand.translating}>
+              {onDemand.translating
+                ? t('common.translating')
+                : onDemand.translated
+                ? t('common.showOriginal')
+                : t('common.translate')}
+            </button>
+            {onDemand.error && <span className="translate-error">{t('common.translateError')}</span>}
+          </div>
+        )}
 
         <div className="reactions">
           {REACTIONS.map((r) => (
@@ -144,6 +172,14 @@ function SurpriseModal({ onClose }) {
         .surprise-image img { width: 100%; height: 100%; object-fit: cover; }
         .surprise-card h3 { margin-top: 16px; font-size: 21px; line-height: 1.35; }
         .surprise-card p { color: var(--ink-soft); font-size: 15px; }
+        .translate-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 4px; }
+        .translate-btn {
+          font-size: 12.5px; font-weight: 600; color: var(--sage-dark);
+          background: var(--sage-pale); border: none; padding: 6px 12px; border-radius: 100px;
+        }
+        .translate-btn:hover { background: var(--blush); }
+        .translate-btn:disabled { opacity: 0.6; }
+        .translate-error { font-size: 12px; color: #B4432D; }
         .reactions {
           display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
           margin: 20px 0 18px;

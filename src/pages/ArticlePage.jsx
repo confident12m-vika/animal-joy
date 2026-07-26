@@ -5,6 +5,7 @@ import { useArticle } from '../hooks/useArticle.js'
 import { useOnDemandTranslate } from '../hooks/useOnDemandTranslate.js'
 import ReactionBar from '../components/ReactionBar.jsx'
 import { SurpriseMePrompt } from '../components/SurpriseMe.jsx'
+import AdSlot from '../components/AdSlot.jsx'
 
 export default function ArticlePage() {
   const { id } = useParams()
@@ -107,6 +108,8 @@ export default function ArticlePage() {
         <div className="reactions-section">
           <ReactionBar articleId={article.id} size="default" />
         </div>
+
+        <AdSlot slot="2222222222" />
 
         <div className="share-row">
           <p className="share-label">Share this story</p>

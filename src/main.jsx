@@ -5,12 +5,17 @@ import App from './App.jsx'
 import './index.css'
 import './i18n/index.js'
 import { warmUpConnection } from './lib/supabaseClient.js'
+import { loadAdSenseScript } from './lib/adsense.js'
 
 // Fire this immediately, before React even renders, so the database
 // connection is already "waking up" while the page is still loading the
 // rest of the app. Cuts down the perceived delay from Supabase's free-tier
 // cold start on the very first request after a period of inactivity.
 warmUpConnection()
+
+// Loads the AdSense script once a real Publisher ID is configured (see
+// README). Safe no-op until then.
+loadAdSenseScript()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
