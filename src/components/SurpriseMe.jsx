@@ -92,40 +92,42 @@ function SurpriseModal({ onClose }) {
           {'\u2715'}
         </button>
 
-        <span className="tag">{current.kindLabel}</span>
+        <div className="surprise-scroll">
+          <span className="tag">{current.kindLabel}</span>
 
-        {current.image && (
-          <div className="surprise-image">
-            <img src={current.image} alt="" />
+          {current.image && (
+            <div className="surprise-image">
+              <img src={current.image} alt="" />
+            </div>
+          )}
+
+          <h3>{displayed.title}</h3>
+          {displayed.body && <p>{displayed.body}</p>}
+
+          {!current.hasNativeTranslation && onDemand.show && (
+            <div className="translate-row">
+              <button className="translate-btn" onClick={onDemand.toggle} disabled={onDemand.translating}>
+                {onDemand.translating
+                  ? t('common.translating')
+                  : onDemand.translated
+                  ? t('common.showOriginal')
+                  : t('common.translate')}
+              </button>
+              {onDemand.error && <span className="translate-error">{t('common.translateError')}</span>}
+            </div>
+          )}
+
+          <div className="reactions">
+            {REACTIONS.map((r) => (
+              <button
+                key={r.key}
+                className={`reaction ${picked === r.key ? 'is-picked' : ''}`}
+                onClick={() => setPicked(r.key)}
+              >
+                {r.label}
+              </button>
+            ))}
           </div>
-        )}
-
-        <h3>{displayed.title}</h3>
-        {displayed.body && <p>{displayed.body}</p>}
-
-        {!current.hasNativeTranslation && onDemand.show && (
-          <div className="translate-row">
-            <button className="translate-btn" onClick={onDemand.toggle} disabled={onDemand.translating}>
-              {onDemand.translating
-                ? t('common.translating')
-                : onDemand.translated
-                ? t('common.showOriginal')
-                : t('common.translate')}
-            </button>
-            {onDemand.error && <span className="translate-error">{t('common.translateError')}</span>}
-          </div>
-        )}
-
-        <div className="reactions">
-          {REACTIONS.map((r) => (
-            <button
-              key={r.key}
-              className={`reaction ${picked === r.key ? 'is-picked' : ''}`}
-              onClick={() => setPicked(r.key)}
-            >
-              {r.label}
-            </button>
-          ))}
         </div>
 
         <button className="btn btn-primary again" onClick={next}>
@@ -150,28 +152,39 @@ function SurpriseModal({ onClose }) {
           border-radius: 28px;
           max-width: 440px;
           width: 100%;
-          padding: 36px 30px 30px;
+          max-height: 85vh;
+          padding: 36px 30px 26px;
           text-align: center;
           box-shadow: 0 30px 60px -20px rgba(56, 51, 44, 0.4);
           animation: pop 0.32s cubic-bezier(.2,.9,.3,1.2);
+          display: flex;
+          flex-direction: column;
+        }
+        .surprise-scroll {
+          overflow-y: auto;
+          flex: 1;
+          min-height: 0;
+          padding-inline: 2px;
         }
         @keyframes pop {
           from { opacity: 0; transform: scale(0.92) translateY(8px); }
           to { opacity: 1; transform: scale(1) translateY(0); }
         }
         .close-x {
-          position: absolute; top: 14px; inset-inline-end: 16px;
-          background: none; border: none; font-size: 16px; color: var(--ink-soft);
+          position: absolute; top: 14px; inset-inline-end: 16px; z-index: 2;
+          background: var(--paper); border-radius: 50%; width: 30px; height: 30px;
+          border: none; font-size: 16px; color: var(--ink-soft);
         }
         .surprise-image {
-          margin: 16px -6px 6px;
+          margin: 16px 0 6px;
           border-radius: 18px;
           overflow: hidden;
           aspect-ratio: 16/10;
         }
         .surprise-image img { width: 100%; height: 100%; object-fit: cover; }
         .surprise-card h3 { margin-top: 16px; font-size: 21px; line-height: 1.35; }
-        .surprise-card p { color: var(--ink-soft); font-size: 15px; }
+        .surprise-card p { color: var(--ink-soft); font-size: 15px; line-height: 1.6; text-align: start; }
+        .again { flex-shrink: 0; margin-top: 16px; }
         .translate-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 4px; }
         .translate-btn {
           font-size: 12.5px; font-weight: 600; color: var(--sage-dark);
