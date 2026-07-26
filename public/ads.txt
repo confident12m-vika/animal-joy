@@ -1,8 +1,1 @@
-# This file is REQUIRED by Google AdSense once you're approved.
-# Replace pub-0000000000000000 below with your real AdSense Publisher ID
-# (find it at adsense.google.com under Account > Account information).
-#
-# Example of what the real line should look like:
-# google.com, pub-1234567890123456, DIRECT, f08c47fec0942fa0
-#
-# Until you replace it, this file intentionally has no valid entry.
+google.com, pub-8726860784692880, DIRECT, f08c47fec0942fa0
