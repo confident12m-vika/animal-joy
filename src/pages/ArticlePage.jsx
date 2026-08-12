@@ -97,9 +97,17 @@ export default function ArticlePage() {
             {onDemand.error && <span className="translate-error">{t('common.translateError')}</span>}
           </div>
         )}
-        <p>{content.excerpt}</p>
+        {article.contentType === 'link' ? (
+          article.link && (
+            <a className="btn btn-primary shop-link" href={article.link} target="_blank" rel="noreferrer">
+              {'\uD83D\uDD17'} Open link {'\u2192'}
+            </a>
+          )
+        ) : (
+          <p>{content.excerpt}</p>
+        )}
 
-        {article.category === 'best-finds' && article.link && (
+        {article.category === 'best-finds' && article.contentType === 'text' && article.link && (
           <a className="btn btn-primary shop-link" href={article.link} target="_blank" rel="noreferrer">
             {'\uD83D\uDECD\uFE0F'} Shop now {'\u2192'}
           </a>

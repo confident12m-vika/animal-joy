@@ -12,6 +12,7 @@ function normalize(row) {
     readMinutes: row.read_minutes,
     reactions: row.reactions,
     published: row.published,
+    contentType: row.content_type || 'text',
     link: row.link || '',
     translations: row.translations,
   }

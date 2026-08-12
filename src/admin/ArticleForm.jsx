@@ -24,9 +24,10 @@ export default function ArticleForm() {
   const [category, setCategory] = useState(validCategory ? preselectedCategory : 'happy-stories')
   const [image, setImage] = useState('')
   const [title, setTitle] = useState('')
+  const [contentType, setContentType] = useState('text')
   const [excerpt, setExcerpt] = useState('')
   const [link, setLink] = useState('')
-  const [readMinutes, setReadMinutes] = useState(5)
+  const [readMinutes, setReadMinutes] = useState('')
   const [published, setPublished] = useState(true)
   const [loading, setLoading] = useState(isEditing)
   const [saving, setSaving] = useState(false)
@@ -46,9 +47,10 @@ export default function ArticleForm() {
           setCategory(data.category)
           setImage(data.image || '')
           setTitle(data.translations?.en?.title || '')
+          setContentType(data.content_type || 'text')
           setExcerpt(data.translations?.en?.excerpt || '')
           setLink(data.link || '')
-          setReadMinutes(data.read_minutes ?? 5)
+          setReadMinutes(data.read_minutes ?? '')
           setPublished(data.published)
         }
         setLoading(false)
@@ -60,16 +62,37 @@ export default function ArticleForm() {
     setSaving(true)
     setError('')
 
+    if (!readMinutes || Number(readMinutes) < 1) {
+      setError('Enter the real read time for this article (not a placeholder).')
+      setSaving(false)
+      return
+    }
+
+    if (contentType === 'link' && !link.trim()) {
+      setError('Add the link this story should send visitors to.')
+      setSaving(false)
+      return
+    }
+
+    if (contentType === 'text' && !excerpt.trim()) {
+      setError('Add the story text.')
+      setSaving(false)
+      return
+    }
+
     const payload = {
       category,
       image,
-      link: category === 'best-finds' ? link : null,
-      read_minutes: Number(readMinutes) || 5,
+      content_type: contentType,
+      // Best Finds keeps its own shop link regardless of content type; other
+      // sections only store a link when the admin picked "Link" above.
+      link: category === 'best-finds' || contentType === 'link' ? link.trim() : null,
+      read_minutes: Number(readMinutes),
       published,
       // Only English is filled in for now — other languages fall back to
       // English automatically on the live site until multi-language admin
       // support is added.
-      translations: { en: { title, excerpt } },
+      translations: { en: { title, excerpt: contentType === 'text' ? excerpt : '' } },
     }
 
     const query = isEditing
@@ -110,8 +133,15 @@ export default function ArticleForm() {
             </select>
           </label>
           <label>
-            Read time (minutes)
-            <input type="number" min="1" value={readMinutes} onChange={(e) => setReadMinutes(e.target.value)} />
+            Read time (minutes) — actual time, not a placeholder
+            <input
+              type="number"
+              min="1"
+              placeholder="e.g. 4"
+              value={readMinutes}
+              onChange={(e) => setReadMinutes(e.target.value)}
+              required
+            />
           </label>
         </div>
 
@@ -130,11 +160,50 @@ export default function ArticleForm() {
             Title
             <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
           </label>
-          <label>
-            Text
-            <textarea rows={5} value={excerpt} onChange={(e) => setExcerpt(e.target.value)} required />
-          </label>
-          {category === 'best-finds' && (
+
+          <div className="content-type-row">
+            <p className="field-label">This story is</p>
+            <label className="radio-option">
+              <input
+                type="radio"
+                name="contentType"
+                value="text"
+                checked={contentType === 'text'}
+                onChange={() => setContentType('text')}
+              />
+              Written text
+            </label>
+            <label className="radio-option">
+              <input
+                type="radio"
+                name="contentType"
+                value="link"
+                checked={contentType === 'link'}
+                onChange={() => setContentType('link')}
+              />
+              A link to somewhere else
+            </label>
+          </div>
+
+          {contentType === 'text' ? (
+            <label>
+              Text
+              <textarea rows={5} value={excerpt} onChange={(e) => setExcerpt(e.target.value)} required />
+            </label>
+          ) : (
+            <label>
+              Link (shown to visitors as a clickable button on the story)
+              <input
+                type="url"
+                placeholder="https://..."
+                value={link}
+                onChange={(e) => setLink(e.target.value)}
+                required
+              />
+            </label>
+          )}
+
+          {category === 'best-finds' && contentType === 'text' && (
             <label>
               Shop link (URL)
               <input
@@ -186,5 +255,12 @@ export const formStyles = `
   .checkbox-row input { width: auto; }
   .field-block { display: flex; flex-direction: column; gap: 14px; }
   .field-label { font-size: 13.5px; font-weight: 500; margin: 0; }
+  .content-type-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .content-type-row .field-label { margin-right: 4px; }
+  .radio-option {
+    flex-direction: row !important; align-items: center; gap: 6px !important;
+    font-weight: 400 !important;
+  }
+  .radio-option input { width: auto; }
   .admin-error { color: #B4432D; font-size: 13.5px; }
 `

@@ -7,6 +7,7 @@ export default function ArticleCard({ article }) {
   const content = article.translations[i18n.language] || article.translations.en
   const tag = t(`categories.${article.category}`)
   const isBestFinds = article.category === 'best-finds'
+  const isLink = article.contentType === 'link'
 
   return (
     <article className="article-card">
@@ -18,12 +19,16 @@ export default function ArticleCard({ article }) {
         <Link to={`/article/${article.id}`}>
           <h3>{content.title}</h3>
         </Link>
-        <p>{content.excerpt}</p>
+        {!isLink && <p>{content.excerpt}</p>}
         <div className="meta">
           <span>{t('common.minRead', { count: article.readMinutes })}</span>
         </div>
         <ReactionBar articleId={article.id} size="compact" />
-        {isBestFinds && article.link ? (
+        {isLink && article.link ? (
+          <a className="btn btn-ghost read-more" href={article.link} target="_blank" rel="noreferrer">
+            {'\uD83D\uDD17'} Open link {'\u2192'}
+          </a>
+        ) : isBestFinds && article.link ? (
           <a className="btn btn-ghost read-more" href={article.link} target="_blank" rel="noreferrer">
             {'\uD83D\uDECD\uFE0F'} Shop now {'\u2192'}
           </a>
