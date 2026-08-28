@@ -1,25 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import { useOnDemandTranslate } from '../hooks/useOnDemandTranslate.js'
-
-const content = {
-  title: 'About Us',
-  body: `Animal Joy is a home for animal lovers \u2014 happy rescue stories, honest jokes, amazing facts, and a community that looks out for lost and stray animals together.
-
-We're part of Urban Soul Vibe, a small project built around one idea: every animal deserves to be seen, and every reader deserves a place that feels warm.
-
-What you'll find here
-- Stories worth smiling about, from happy endings to everyday pet life.
-- A Lost & Found board where the community helps reunite lost animals with their people, and flags animals that need urgent help.
-- A growing space for photos, jokes, and small moments of joy, one article at a time.
-
-Why we do this
-We believe kindness toward animals says something good about all of us. Animal Joy exists to make that kindness a little easier to find, share, and act on.
-
-Want to be part of it? Create an account to react to stories, report a lost or found animal, or just say hello through our Contact Us page.`,
-}
+import { useMeta } from '../lib/useMeta.js'
+import { aboutContent as content } from '../content/legalContent.js'
 
 export default function AboutUs() {
   const { t, i18n } = useTranslation()
+  useMeta({ title: `${content.title} - Animal Joy`, description: content.description })
   const onDemand = useOnDemandTranslate({ title: content.title, body: content.body })
   const shown = i18n.language === 'en' ? content : onDemand.shown
   const paragraphs = shown.body.split(/\n\s*\n/).filter(Boolean)

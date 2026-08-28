@@ -1,36 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import { useOnDemandTranslate } from '../hooks/useOnDemandTranslate.js'
-
-const content = {
-  title: 'Privacy Policy',
-  body: `Last updated: 2026
-
-Animal Joy ("we", "our", "the site") respects your privacy. This page explains what information we collect and how we use it.
-
-What we collect
-- Account information: your name, email address, and (if you sign in with Google) your profile photo.
-- Content you post: articles you interact with, reactions, Lost & Found reports, and messages you send us.
-- WhatsApp numbers submitted with Lost & Found reports are kept private and are only visible to you and site administrators, never shown publicly.
-
-How we use it
-- To operate your account and let you sign in.
-- To show you notifications relevant to your posts and activity.
-- To send you emails you've asked for, such as updates about your Lost & Found report or occasional site news.
-- We do not sell your personal information to third parties.
-
-Your choices
-- You can delete your own Lost & Found reports and reactions at any time from your account.
-- You can contact us at any time using the Contact Us page if you'd like your account or data removed.
-
-Cookies and analytics
-This site uses only the technical cookies necessary to keep you signed in. We do not run third-party advertising trackers.
-
-Contact
-If you have any questions about this policy, please reach out through our Contact Us page.`,
-}
+import { useMeta } from '../lib/useMeta.js'
+import { privacyContent as content } from '../content/legalContent.js'
 
 export default function PrivacyPolicy() {
   const { t, i18n } = useTranslation()
+  useMeta({ title: `${content.title} - Animal Joy`, description: content.description })
   const onDemand = useOnDemandTranslate({ title: content.title, body: content.body })
   const shown = i18n.language === 'en' ? content : onDemand.shown
   const paragraphs = shown.body.split(/\n\s*\n/).filter(Boolean)

@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient.js'
+import { useMeta } from '../lib/useMeta.js'
+import { contactContent } from '../content/legalContent.js'
 
 export default function ContactUs() {
+  useMeta({ title: `${contactContent.title} - Animal Joy`, description: contactContent.description })
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
