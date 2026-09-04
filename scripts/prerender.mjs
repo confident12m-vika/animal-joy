@@ -91,12 +91,18 @@ for (const route of ROUTES) {
     `<meta name="description" content="${escapeHtml(route.description)}" />`
   )
 
-  // Add canonical link right after the description tag
-  const canonicalUrl = `https://animaljoystories.com/${route.path}`
-  html = html.replace(
-    /(<meta name="description" content=".*?"\s*\/>)/,
-    `$1\n    <link rel="canonical" href="${canonicalUrl}" />`
-  )
+  // استبدل أي canonical موجود مسبقاً في القالب (زي كانونيكال الصفحة
+  // الرئيسية) بدل ما نضيف واحد جديد فوقه — عشان ما تبقاش الصفحة فيها
+  // canonical مزدوج (سبب شائع لمشكلة "Duplicate without user-selected canonical").
+  const canonicalUrl = `https://www.animaljoystories.com/${route.path}`
+  if (/<link rel="canonical"[^>]*\/>/.test(html)) {
+    html = html.replace(/<link rel="canonical"[^>]*\/>/, `<link rel="canonical" href="${canonicalUrl}" />`)
+  } else {
+    html = html.replace(
+      /(<meta name="description" content=".*?"\s*\/>)/,
+      `$1\n    <link rel="canonical" href="${canonicalUrl}" />`
+    )
+  }
 
   // JSON-LD structured data
   const jsonLd = `<script type="application/ld+json">${JSON.stringify({

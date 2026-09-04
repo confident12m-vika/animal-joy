@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabaseClient.js'
 import { deleteStorageFile } from '../lib/storageUtils.js'
 import { translateText } from '../lib/translate.js'
 import { postTypeInfo, animalTypeInfo } from '../lib/lostPetConstants.js'
+import { useMeta } from '../lib/useMeta.js'
 
 export default function LostPetDetail() {
   const { id } = useParams()
@@ -58,6 +59,16 @@ export default function LostPetDetail() {
     setTranslated(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, session])
+
+  // كل منشور "مفقود/موجود" له رابط canonical خاص بيه (مش الصفحة الرئيسية)،
+  // عشان جوجل يقدر يفهرسه كصفحة مستقلة بدل ما يعتبره تكرار بدون علامة
+  // واضحة. لازم يتنادى قبل أي return مبكر (loading/notFound) عشان يحترم
+  // ترتيب استدعاء الـ hooks.
+  useMeta({
+    title: post ? `${post.title} - Animal Joy` : undefined,
+    description: post ? post.description?.slice(0, 160) : undefined,
+    canonicalPath: `/lost-and-found/${id}`,
+  })
 
   if (loading) {
     return (
