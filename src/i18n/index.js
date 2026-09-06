@@ -5,6 +5,12 @@ const resources = {
   en: {
     translation: {
       brand: 'Animal Joy',
+      cookieConsent: {
+        text: 'We use cookies to improve your experience and show relevant ads. You can read our',
+        privacyLink: 'Privacy Policy',
+        reject: 'Reject',
+        accept: 'Accept',
+      },
       nav: {
         home: 'Home',
         happyStories: 'Happy Stories',
@@ -202,6 +208,12 @@ const resources = {
   ar: {
     translation: {
       brand: 'Animal Joy',
+      cookieConsent: {
+        text: 'نستخدم ملفات تعريف الارتباط لتحسين تجربتك وعرض إعلانات مناسبة. يمكنك قراءة',
+        privacyLink: 'سياسة الخصوصية',
+        reject: 'رفض',
+        accept: 'موافق',
+      },
       nav: {
         home: 'الرئيسية',
         happyStories: 'قصص سعيدة',
@@ -399,6 +411,12 @@ const resources = {
   ru: {
     translation: {
       brand: 'Animal Joy',
+      cookieConsent: {
+        text: 'Мы используем файлы cookie для улучшения вашего опыта и показа релевантной рекламы. Вы можете прочитать нашу',
+        privacyLink: 'Политику конфиденциальности',
+        reject: 'Отклонить',
+        accept: 'Принять',
+      },
       nav: {
         home: 'Главная',
         happyStories: 'Счастливые истории',
@@ -596,6 +614,12 @@ const resources = {
   es: {
     translation: {
       brand: 'Animal Joy',
+      cookieConsent: {
+        text: 'Usamos cookies para mejorar tu experiencia y mostrar anuncios relevantes. Puedes leer nuestra',
+        privacyLink: 'Política de Privacidad',
+        reject: 'Rechazar',
+        accept: 'Aceptar',
+      },
       nav: {
         home: 'Inicio',
         happyStories: 'Historias Felices',

@@ -24,6 +24,7 @@ import AboutUs from './pages/AboutUs.jsx'
 import PrivacyPolicy from './pages/PrivacyPolicy.jsx'
 import TermsOfService from './pages/TermsOfService.jsx'
 import NotFound from './pages/NotFound.jsx'
+import CookieConsent from './components/CookieConsent.jsx'
 
 import Login from './admin/Login.jsx'
 import ProtectedRoute from './admin/ProtectedRoute.jsx'
@@ -69,6 +70,7 @@ function PublicSite() {
         </Routes>
       </main>
       <Footer />
+      <CookieConsent />
     </div>
   )
 }
