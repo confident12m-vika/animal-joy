@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useArticle } from '../hooks/useArticle.js'
 import { useOnDemandTranslate } from '../hooks/useOnDemandTranslate.js'
+import LazyImage from '../components/LazyImage.jsx'
 import ReactionBar from '../components/ReactionBar.jsx'
 import { SurpriseMePrompt } from '../components/SurpriseMe.jsx'
 import AdSlot from '../components/AdSlot.jsx'
@@ -81,7 +82,7 @@ export default function ArticlePage() {
       </div>
 
       <div className="container hero-image-wrap">
-        <img src={article.image} alt="" className="hero-image" />
+        <LazyImage src={article.image} alt="" className="hero-image" />
       </div>
 
       <div className="container article-body">

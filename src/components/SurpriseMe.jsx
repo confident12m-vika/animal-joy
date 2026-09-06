@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useJokes } from '../hooks/useJokes.js'
 import { useArticles } from '../hooks/useArticles.js'
 import { useOnDemandTranslate } from '../hooks/useOnDemandTranslate.js'
+import LazyImage from './LazyImage.jsx'
 
 // Build one shared pool of "surprises": jokes + short story/fact teasers,
 // resolved to the current language. Anything published in Supabase (or, if
@@ -97,7 +98,7 @@ function SurpriseModal({ onClose }) {
 
           {current.image && (
             <div className="surprise-image">
-              <img src={current.image} alt="" />
+              <LazyImage src={current.image} alt="" />
             </div>
           )}
 

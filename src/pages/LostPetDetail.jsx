@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext.jsx'
 import { supabase } from '../lib/supabaseClient.js'
 import { deleteStorageFile } from '../lib/storageUtils.js'
+import LazyImage from '../components/LazyImage.jsx'
 import { translateText } from '../lib/translate.js'
 import { postTypeInfo, animalTypeInfo } from '../lib/lostPetConstants.js'
 import { useMeta } from '../lib/useMeta.js'
@@ -186,7 +187,7 @@ export default function LostPetDetail() {
 
         {post.image && (
           <div className="lp-image-wrap">
-            <img src={post.image} alt="" />
+            <LazyImage src={post.image} alt="" />
           </div>
         )}
 

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { postTypeInfo, animalTypeInfo } from '../lib/lostPetConstants.js'
+import LazyImage from './LazyImage.jsx'
 
 export default function LostPetCard({ post }) {
   const { t } = useTranslation()
@@ -10,7 +11,7 @@ export default function LostPetCard({ post }) {
   return (
     <Link to={`/lost-and-found/${post.id}`} className="lp-card">
       <div className="lp-thumb">
-        {post.image && <img src={post.image} alt="" loading="lazy" />}
+        {post.image && <LazyImage src={post.image} alt="" />}
         {post.status === 'resolved' && <span className="lp-resolved-ribbon">{t('lostFound.resolved')}</span>}
       </div>
       <div className="lp-body">

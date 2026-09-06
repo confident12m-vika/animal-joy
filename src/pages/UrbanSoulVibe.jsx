@@ -3,6 +3,7 @@ import { useArticles } from '../hooks/useArticles.js'
 import { useSiteBlock } from '../hooks/useSiteBlock.js'
 import { useOnDemandTranslate } from '../hooks/useOnDemandTranslate.js'
 import ArticleCard from '../components/ArticleCard.jsx'
+import LazyImage from '../components/LazyImage.jsx'
 import { SurpriseMePrompt } from '../components/SurpriseMe.jsx'
 
 const missionFallback = {
@@ -38,7 +39,7 @@ export default function UrbanSoulVibe() {
 
       <div className="container mission">
         <div className="mission-image">
-          <img src={mission.image} alt="" />
+          <LazyImage src={mission.image} alt="" />
         </div>
         <div className="mission-copy">
           <p className="eyebrow">{t('pages.urbanSoulVibe.storyEyebrow')}</p>

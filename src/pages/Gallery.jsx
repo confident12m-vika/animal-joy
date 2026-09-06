@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useGalleryPhotos } from '../hooks/useGalleryPhotos.js'
 import { SurpriseMePrompt } from '../components/SurpriseMe.jsx'
+import LazyImage from '../components/LazyImage.jsx'
 
 export default function Gallery() {
   const { t } = useTranslation()
@@ -23,7 +24,7 @@ export default function Gallery() {
           <div className="masonry">
             {photos.map((p) => (
               <div className="masonry-item" key={p.id}>
-                <img src={p.image} alt="" loading="lazy" />
+                <LazyImage src={p.image} alt="" />
               </div>
             ))}
           </div>

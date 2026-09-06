@@ -3,6 +3,7 @@ import { useArticles } from '../hooks/useArticles.js'
 import { useSiteBlock } from '../hooks/useSiteBlock.js'
 import { useOnDemandTranslate } from '../hooks/useOnDemandTranslate.js'
 import ArticleCard from '../components/ArticleCard.jsx'
+import LazyImage from '../components/LazyImage.jsx'
 import { SurpriseMeButton } from '../components/SurpriseMe.jsx'
 import AdSlot from '../components/AdSlot.jsx'
 
@@ -48,7 +49,7 @@ export default function Home() {
           <SurpriseMeButton size="large" />
         </div>
         <div className="hero-image">
-          <img src={hero.image} alt="A happy dog and cat resting together" />
+          <LazyImage src={hero.image} alt="A happy dog and cat resting together" />
         </div>
       </section>
 
@@ -98,7 +99,7 @@ export default function Home() {
               {t('home.usvCta')} {'\u2192'}
             </a>
           </div>
-          <img src="https://picsum.photos/seed/animaljoy-usv-strip/700/500" alt="" />
+          <LazyImage src="https://picsum.photos/seed/animaljoy-usv-strip/700/500" alt="" />
         </div>
       </section>
 

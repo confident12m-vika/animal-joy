@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import ReactionBar from './ReactionBar.jsx'
+import LazyImage from './LazyImage.jsx'
 
 export default function ArticleCard({ article }) {
   const { t, i18n } = useTranslation()
@@ -12,7 +13,7 @@ export default function ArticleCard({ article }) {
   return (
     <article className="article-card">
       <Link to={`/article/${article.id}`} className="thumb">
-        <img src={article.image} alt="" loading="lazy" />
+        <LazyImage src={article.image} alt="" />
       </Link>
       <div className="body">
         <span className="tag">{tag}</span>
