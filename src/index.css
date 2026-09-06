@@ -220,4 +220,24 @@ button {
 }
 .cookie-consent-text { flex: 1 1 260px; font-size: 13px; color: var(--ink); margin: 0; line-height: 1.6; }
 .cookie-consent-link { color: var(--sage-dark); text-decoration: underline; }
-.cookie-consent-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.cookie-consent-actions { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+
+/* ═══════════ Cookie customize screen (third option) ═══════════ */
+.cookie-consent-customize { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.cookie-consent-category { border-top: 1px solid var(--line); padding-top: 10px; }
+.cookie-consent-category:first-child { border-top: none; padding-top: 0; }
+.cookie-consent-category-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.cookie-consent-category p { margin: 0; font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+.cookie-consent-always-on { color: var(--sage-dark); font-weight: 700; }
+.cookie-consent-switch { position: relative; display: inline-block; width: 40px; height: 22px; flex-shrink: 0; }
+.cookie-consent-switch input { opacity: 0; width: 0; height: 0; }
+.cookie-consent-switch-slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: var(--line); border-radius: 999px; transition: 0.2s;
+}
+.cookie-consent-switch-slider::before {
+  content: ""; position: absolute; height: 16px; width: 16px; left: 3px; bottom: 3px;
+  background: white; border-radius: 50%; transition: 0.2s;
+}
+.cookie-consent-switch input:checked + .cookie-consent-switch-slider { background: var(--sage); }
+.cookie-consent-switch input:checked + .cookie-consent-switch-slider::before { transform: translateX(18px); }
